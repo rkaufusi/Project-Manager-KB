@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import {json, urlencoded} from 'body-parser'
+const pool = require("db")
 
 const app = express()
 
@@ -17,5 +18,12 @@ app.listen(PORT, () => {
 app.get("/", (_, response) => {
     response.send("Hello World")
 })
+
+//Routes
+
+//getAll
+//create
+//update
+//delete
 
 export default app
