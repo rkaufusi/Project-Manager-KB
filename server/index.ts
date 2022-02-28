@@ -22,6 +22,27 @@ app.get("/todos", (_, response) => {
 //Routes
 
 //getAll
+
+app.get("/todos", async (req, res) => {
+    try {
+        const allTodos = await pool.query("SELECT * FROM todo")
+
+        res.json(allTodos.rows)
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+// get a todo
+app.get("/todos/:id", async (req, res) => {
+    try {
+        const { id } = req.params
+        const todo = await pool.query("SELECT * FROM todo WHERE todo_id = $1", [id])
+        res.json(todo.rows[0])
+    } catch (error) {
+        console.log(error)
+    }
+})
 //create
 
 app.post("/todos", async (req, res) => {
@@ -37,6 +58,17 @@ app.post("/todos", async (req, res) => {
 })
 
 //update
+
+app.put("/todos/:id", async (req, res) => {
+    try {
+        const {id} = req.params
+        const {description} = req.body
+        const updateTodo = await pool.query("UPDATE todo SET description = $1 WHERE todo_id = $2", [description, id])
+        res.json("added to do")
+    } catch (error) {
+        console.log(error)
+    }
+})
 //delete
 
 export default app
