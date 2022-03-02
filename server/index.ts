@@ -19,6 +19,8 @@ app.get("/todos", (_, response) => {
     response.send("Hello World")
 })
 */
+
+
 //Routes
 
 //getAll
@@ -47,10 +49,9 @@ app.get("/todos/:id", async (req, res) => {
 
 app.post("/todos", async (req, res) => {
     try {
-        const {title, description} = req.body
-        console.log(title, description)
-        const newTodo = await pool.query("INSERT INTO todo (title, description) VALUES ($1, $2) RETURNING *", [title, description])
-
+        const {title, description, col} = req.body
+        console.log(title, description, col)
+        const newTodo = await pool.query("INSERT INTO todo (title, description, col) VALUES ($1, $2, $3) RETURNING *", [title, description, col])
         res.json(newTodo)
     } catch (err) {
         console.log(err)
@@ -62,13 +63,21 @@ app.post("/todos", async (req, res) => {
 app.put("/todos/:id", async (req, res) => {
     try {
         const {id} = req.params
-        const {description} = req.body
-        const updateTodo = await pool.query("UPDATE todo SET description = $1 WHERE todo_id = $2", [description, id])
+        const {description, title, col} = req.body
+        const updateTodo = await pool.query("UPDATE todo SET title = $1, description = $2, col = $3 WHERE todo_id = $4", [title, description, col, id])
         res.json("added to do")
     } catch (error) {
         console.log(error)
     }
 })
 //delete
-
+app.delete("/todos/:id", async (req, res) => {
+    try {
+        const {id} = req.params
+        const deleteTodo = await pool.query("DELETE FROM todo WHERE todo_id = $1", [id])
+        res.json("The todo has been deleted")
+    } catch (error) {
+        console.log(error)
+    }
+})
 export default app
