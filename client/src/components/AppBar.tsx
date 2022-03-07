@@ -7,10 +7,12 @@ import Container from '@mui/material/Container';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import Columns from './columns/Columns'
 
 const ResponsiveAppBar = () => {
 
   return (
+    <div>
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -19,7 +21,7 @@ const ResponsiveAppBar = () => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            sx={{ mr: 2, display: { xs: 'flex', md: 'flex' } }}
           >
             Project Management KanBan
           </Typography>
@@ -30,6 +32,8 @@ const ResponsiveAppBar = () => {
         </Toolbar>      
       </Container>
     </AppBar>
+    <Columns/>
+    </div>
   );
 };
 export default ResponsiveAppBar;
