@@ -17,26 +17,40 @@ const Columns = () => {
         <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2} justifyContent="center" >
             
-        <Grid item xs={3.5} container direction="column">
-        <Item><h2>To Do</h2></Item>
-              <Item><Tasks/></Item>
-              <Item><Tasks/></Item>
-              <Item><Tasks/></Item>
+        <Grid item xs={3.5} container direction="column" >
+          <Paper>
+            <h2>To Do</h2>
+              <Tasks/>
+              <Tasks/>
+              <Tasks/>
+              <Tasks/>
+              <Tasks/>
+              <Tasks/>
+          </Paper>
+        </Grid>
 
-          </Grid>
-
-          <Grid item xs={3.5}>
-          <Item><h2>Doing</h2></Item>
-            <Item><Tasks/></Item>
-              <Item><Tasks/></Item>
-              <Item><Tasks/></Item>
-          </Grid>
-          <Grid item xs={3.5}>
-          <Item><h2>Done</h2></Item>
-            <Item><Tasks/></Item>
-              <Item><Tasks/></Item>
-              <Item><Tasks/></Item>
-          </Grid>
+        <Grid item xs={3.5} container direction="column" >
+          <Paper>
+            <h2>Doing</h2>
+              <Tasks/>
+              <Tasks/>
+              <Tasks/>
+              <Tasks/>
+              <Tasks/>
+              <Tasks/>
+          </Paper>
+        </Grid>
+        <Grid item xs={3.5} container direction="column" >
+          <Paper>
+            <h2>Done</h2>
+              <Tasks/>
+              <Tasks/>
+              <Tasks/>
+              <Tasks/>
+              <Tasks/>
+              <Tasks/>
+          </Paper>
+        </Grid>
 
         </Grid>
       </Box>

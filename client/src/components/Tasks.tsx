@@ -12,10 +12,15 @@ const Tasks = () => {
         color: theme.palette.text.secondary,
       }));
     return (
-
-          <Grid item xs={12}>
+      <Box
+      m={1}
+      display="flex"
+      justifyContent="center"
+      >
+          <Grid item xs={11} justifyContent="center">
             <Item>Todo</Item>
           </Grid>
+          </Box>
 
     )
 }
