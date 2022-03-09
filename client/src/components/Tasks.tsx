@@ -5,12 +5,12 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import useEffect from 'react'
 
-interface ToDoItems {
+interface AllItems {
   title?: string,
   content?: string
 }
 
-const Tasks = ({taskVal}: {taskVal: ToDoItems}) => {
+const Tasks = ({taskVal}: {taskVal: AllItems}) => {
   console.log(taskVal)
   
     const Item = styled(Paper)(({ theme }) => ({
@@ -25,10 +25,13 @@ const Tasks = ({taskVal}: {taskVal: ToDoItems}) => {
       display="flex"
       justifyContent="center"
       >
-          <Grid item xs={11} justifyContent="center">        
-              <Paper>to DO</Paper>
-              {}
-
+          <Grid item xs={11} justifyContent="center">
+   
+              <Paper>
+                {taskVal.title}
+                
+                <Paper>{taskVal.content}</Paper>
+              </Paper>
 
           </Grid>
           </Box>
