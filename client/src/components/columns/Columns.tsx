@@ -5,6 +5,8 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Tasks from '../Tasks'
+import AddIcon from '@mui/icons-material/Add';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 
 interface AllItems {
   title?: string,
@@ -47,25 +49,40 @@ const Columns = () => {
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2} justifyContent="center" >    
         <Grid item xs={3.5} container direction="column" >
-            <Paper>
-              <h2>To Do</h2>
-              {toDoState.map((value) => {
-                return <Tasks taskVal={value}/>
+            <Paper elevation={4}>
+              <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
+                <h2>To Do</h2>
+                <IconButton>
+                  <AddIcon/>
+                </IconButton> 
+              </Grid >
+                {toDoState.map((value) => {
+              return <Tasks taskVal={value}/>
               })}
             </Paper>
         </Grid>
 
         <Grid item xs={3.5} container direction="column" >
-          <Paper>
-            <h2>Doing</h2>
+          <Paper elevation={4}>
+            <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
+              <h2>Doing</h2>
+              <IconButton>
+                <AddIcon/>
+              </IconButton>      
+            </Grid >
             {doingState.map((value) => {
               return <Tasks taskVal={value}/>
             })}
           </Paper>
         </Grid>
         <Grid item xs={3.5} container direction="column" >
-          <Paper>
-            <h2>Done</h2>
+          <Paper elevation={4}>
+            <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
+              <h2>Done</h2>
+              <IconButton>
+                <AddIcon/>
+              </IconButton>  
+            </Grid >
             {doneState.map((value) => {
               return <Tasks taskVal={value}/>
             })}

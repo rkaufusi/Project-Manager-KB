@@ -5,8 +5,12 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
+import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 
 interface AllItems {
   title?: string,
@@ -28,14 +32,21 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
       justifyContent="center"
     >
       <Grid item xs={11} justifyContent="center">
-        <Card>
+        <Card elevation={2}>
           <CardHeader 
             title={taskVal.title}
-          />
-              
+          />   
           <CardContent>
             {taskVal.content}
           </CardContent>
+          <CardActions>
+            <IconButton>
+              <AddIcon />
+            </IconButton>
+            <IconButton>
+              <DeleteForeverIcon/>
+            </IconButton>
+          </CardActions>
         </Card>
       </Grid>
     </Box>

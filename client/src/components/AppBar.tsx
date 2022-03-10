@@ -32,7 +32,9 @@ const ResponsiveAppBar = () => {
         </Toolbar>      
       </Container>
     </AppBar>
-    <Columns/>
+    <Box sx={{mt: 2.5}}>
+      <Columns/>
+    </Box>
     </div>
   );
 };
