@@ -1,20 +1,38 @@
 import * as React from 'react';
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Tasks from '../Tasks'
 import AddIcon from '@mui/icons-material/Add';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton'; 
+import axios from 'axios'
 
 interface AllItems {
   title?: string,
-  content?: string
+  description?: string,
+  col: string
 }
 
 const Columns = () => {
     // axios to get columns
+    const [test, setTest] = useState([])
+    useEffect(() => {
+      axios.get('http://localhost:5000/todos').then((allTodos) => {
+        setTest(allTodos.data)
+      })
+    },[])
+    console.log(test)
+    test.map((value) => {
+      console.log(value)
+    })
+    /*
+      todo_id SERIAL PRIMARY KEY,
+      title VARCHAR(255),
+      description VARCHAR(255),
+      col VARCHAR(255),
+    */
 
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -24,21 +42,21 @@ const Columns = () => {
   }));
 
   const allToDo: AllItems[] = [
-    {title: "first To Do", content: "here is the first To Do Task"},
-    {title: "second To Do", content: "here is the second To Do Task"},
-    {title: "third To Do", content: "here is the second To Do Task"},
+    {title: "first To Do", description: "here is the first To Do Task", col: "To Do"},
+    {title: "second To Do", description: "here is the second To Do Task", col: "To Do"},
+    {title: "third To Do", description: "here is the second To Do Task", col: "To Do"},
   ]
 
   const allDoing: AllItems[] = [
-    {title: "first Doing", content: "here is the first Doing Task"},
-    {title: "second Doing", content: "here is the second Doing Task"},
-    {title: "third Doing", content: "here is the second Doing Task"},
+    {title: "first Doing", description: "here is the first Doing Task", col: "Doing"},
+    {title: "second Doing", description: "here is the second Doing Task", col: "Doing"},
+    {title: "third Doing", description: "here is the second Doing Task", col: "Doing"},
   ]
 
   const allDone: AllItems[] = [
-    {title: "first Done", content: "here is the first done Task"},
-    {title: "second Done", content: "here is the second done Task"},
-    {title: "third Done", content: "here is the second done Task"},
+    {title: "first Done", description: "here is the first done Task", col: "Done"},
+    {title: "second Done", description: "here is the second done Task", col: "Done"},
+    {title: "third Done", description: "here is the second done Task", col: "Done"},
   ]
 
   const [toDoState, setMyToDoState] = useState<AllItems[]>(allToDo)
@@ -56,7 +74,7 @@ const Columns = () => {
                   <AddIcon/>
                 </IconButton> 
               </Grid >
-                {toDoState.map((value) => {
+                {test.map((value) => {
               return <Tasks taskVal={value}/>
               })}
             </Paper>

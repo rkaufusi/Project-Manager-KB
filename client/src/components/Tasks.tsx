@@ -14,7 +14,8 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 
 interface AllItems {
   title?: string,
-  content?: string
+  description?: string,
+  col: string
 }
 
 const Tasks = ({taskVal}: {taskVal: AllItems}) => {
@@ -37,7 +38,7 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
             title={taskVal.title}
           />   
           <CardContent>
-            {taskVal.content}
+            {taskVal.description}
           </CardContent>
           <CardActions>
             <IconButton>
