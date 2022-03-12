@@ -10,6 +10,7 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import axios from 'axios'
 
 interface AllItems {
+  todo_id: number,
   title?: string,
   description?: string,
   col: string
@@ -40,26 +41,26 @@ const Columns = () => {
     textAlign: 'center',
     color: theme.palette.text.secondary,
   }));
-
+/*
   const allToDo: AllItems[] = [
     {title: "first To Do", description: "here is the first To Do Task", col: "To Do"},
     {title: "second To Do", description: "here is the second To Do Task", col: "To Do"},
     {title: "third To Do", description: "here is the second To Do Task", col: "To Do"},
   ]
-
+*/
   const allDoing: AllItems[] = [
-    {title: "first Doing", description: "here is the first Doing Task", col: "Doing"},
-    {title: "second Doing", description: "here is the second Doing Task", col: "Doing"},
-    {title: "third Doing", description: "here is the second Doing Task", col: "Doing"},
+    {todo_id: 1, title: "first Doing", description: "here is the first Doing Task", col: "Doing"},
+    {todo_id: 1, title: "second Doing", description: "here is the second Doing Task", col: "Doing"},
+    {todo_id: 1, title: "third Doing", description: "here is the second Doing Task", col: "Doing"},
   ]
 
   const allDone: AllItems[] = [
-    {title: "first Done", description: "here is the first done Task", col: "Done"},
-    {title: "second Done", description: "here is the second done Task", col: "Done"},
-    {title: "third Done", description: "here is the second done Task", col: "Done"},
-  ]
+    {todo_id: 1, title: "first Done", description: "here is the first done Task", col: "Done"},
+    {todo_id: 1, title: "second Done", description: "here is the second done Task", col: "Done"},
+    {todo_id: 1, title: "third Done", description: "here is the second done Task", col: "Done"},
+  ] 
 
-  const [toDoState, setMyToDoState] = useState<AllItems[]>(allToDo)
+  //const [toDoState, setMyToDoState] = useState<AllItems[]>(allToDo)
   const [doingState, setDoingState] = useState<AllItems[]>(allDoing)
   const [doneState, setDoneState] = useState<AllItems[]>(allDone)
 

@@ -9,10 +9,11 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import axios from 'axios'
 
 interface AllItems {
+  todo_id: number,
   title?: string,
   description?: string,
   col: string
@@ -25,7 +26,13 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
       textAlign: 'center',
       color: theme.palette.text.secondary,
     }));
+    console.log(taskVal)
 
+    // do i need "e"? (e) => deleteButtonPressed(id, e)
+    const deleteButtonPressed = (idToDelete: number) => {
+      axios.delete(`http://localhost:5000/todos/${idToDelete}`)
+      .then(response => console.log('deleted', response)).catch(error => console.log(error))
+    }
   return (
     <Box
       m={1}
@@ -45,7 +52,7 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
               <AddIcon />
             </IconButton>
             <IconButton>
-              <DeleteForeverIcon/>
+              <DeleteForeverIcon onClick={()=> deleteButtonPressed(taskVal.todo_id)}/>
             </IconButton>
           </CardActions>
         </Card>

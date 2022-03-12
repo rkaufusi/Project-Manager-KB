@@ -14,12 +14,6 @@ app.use(urlencoded({extended: true}))
 app.listen(PORT, () => {
     console.log(`Connected on port ${PORT}`)
 })
-/*
-app.get("/todos", (_, response) => {
-    response.send("Hello World")
-})
-*/
-
 
 //Routes
 
