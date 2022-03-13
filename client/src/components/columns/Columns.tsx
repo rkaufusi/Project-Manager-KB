@@ -68,7 +68,7 @@ const Columns = () => {
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2} justifyContent="center" >    
         <Grid item xs={3.5} container direction="column" >
-            <Paper elevation={4}>
+            <Paper elevation={4} style={{backgroundColor: "#ACEB9B"}}>
               <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
                 <h2>To Do</h2>
                 <IconButton>
@@ -82,7 +82,7 @@ const Columns = () => {
         </Grid>
 
         <Grid item xs={3.5} container direction="column" >
-          <Paper elevation={4}>
+          <Paper elevation={4} style={{backgroundColor: "#9BE3EB"}}>
             <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
               <h2>Doing</h2>
               <IconButton>
@@ -95,7 +95,7 @@ const Columns = () => {
           </Paper>
         </Grid>
         <Grid item xs={3.5} container direction="column" >
-          <Paper elevation={4}>
+          <Paper elevation={4} style={{backgroundColor: "#EB9B9B"}}>
             <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
               <h2>Done</h2>
               <IconButton>
