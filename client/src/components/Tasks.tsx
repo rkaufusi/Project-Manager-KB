@@ -32,7 +32,7 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
     const deleteButtonPressed = (idToDelete: number) => {
       axios.delete(`http://localhost:5000/todos/${idToDelete}`)
       .then(response => console.log('deleted', response)).catch(error => console.log(error))
-
+      
       window.location.reload();
     }
   return (
