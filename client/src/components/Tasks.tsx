@@ -29,12 +29,10 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
     console.log(taskVal)
 
     // do i need "e"? (e) => deleteButtonPressed(id, e)
-    const deleteButtonPressed = (idToDelete: number) => {
-      axios.delete(`http://localhost:5000/todos/${idToDelete}`)
-      .then(response => console.log('deleted', response)).catch(error => console.log(error))
-      
-      window.location.reload();
-    }
+  const deleteButtonPressed = (idToDelete: number) => {
+    axios.delete(`http://localhost:5000/todos/${idToDelete}`)
+    .then(response => console.log('deleted', response)).catch(error => console.log(error))  
+  }
   return (
     <Box
       m={1}
@@ -54,7 +52,7 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
               <AddIcon />
             </IconButton>
             <IconButton>
-              <DeleteForeverIcon onClick={()=> deleteButtonPressed(taskVal.todo_id)}/>
+              <DeleteForeverIcon onClick={() => deleteButtonPressed(taskVal.todo_id)}/>
             </IconButton>
           </CardActions>
         </Card>

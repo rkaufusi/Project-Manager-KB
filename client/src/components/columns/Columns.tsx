@@ -12,6 +12,8 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import ModalFields from '../ModalFields'
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 interface AllItems {
   todo_id: number,
@@ -20,25 +22,59 @@ interface AllItems {
   col: string
 }
 
+interface Cols {
+  title?: string,
+  description?: string,
+  col: string
+}
+
 const Columns = () => {
-    // axios to get columns
     const [test, setTest] = useState([])
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [column, setColumn] = useState('')
+    const [taskTitle, setTaskTitle] = useState<string>('')
+    const [taskDescription, setTaskDescription] = useState<string>('')
+    const [task, setTask] = useState({
+        title: '',
+        description: '',
+        col: ''
+    })
     useEffect(() => {
       axios.get('http://localhost:5000/todos').then((allTodos) => {
         setTest(allTodos.data)
       })
-    },[])
-    console.log(test)
+    },[test])
+
     test.map((value) => {
       console.log(value)
     })
-    /*
-      todo_id SERIAL PRIMARY KEY,
-      title VARCHAR(255),
-      description VARCHAR(255),
-      col VARCHAR(255),
-    */
+    console.log(taskTitle)
+    const createNewTask = () => {
+        axios.post('http://localhost:5000/todos/', task)
+      setIsOpen(false)
+      setTest(test)
+
+    }
+
+    const titleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        event.preventDefault()
+        let enteredTitle = event.target.value
+        setTaskTitle(enteredTitle)
+        setTask({
+            ...task, 
+            title: enteredTitle
+        })
+    }
+    console.log(task)
+    const descriptionChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        event.preventDefault()
+        let enteredDescription = event.target.value
+        setTaskDescription(enteredDescription)
+        setTask({
+            ...task, 
+            description: enteredDescription
+        })
+    }
 
     const style = {
       position: 'absolute' as 'absolute',
@@ -58,25 +94,17 @@ const Columns = () => {
     textAlign: 'center',
     color: theme.palette.text.secondary,
   }));
-  const openCreateNew = (col: string) => {
+  
+  const openCreateNew = (title: string, description: string, col: string) => {
+    setColumn(title)
     setIsOpen(true)
     console.log(`open ${col}`)
   }
   const closeCreateNew = () => {
     setIsOpen(false)
     console.log(`closed`)
-
   }
-  //const addItem = () => {
-   // axios.post
-  //}
-/*
-  const allToDo: AllItems[] = [
-    {title: "first To Do", description: "here is the first To Do Task", col: "To Do"},
-    {title: "second To Do", description: "here is the second To Do Task", col: "To Do"},
-    {title: "third To Do", description: "here is the second To Do Task", col: "To Do"},
-  ]
-*/
+
   const allDoing: AllItems[] = [
     {todo_id: 1, title: "first Doing", description: "here is the first Doing Task", col: "Doing"},
     {todo_id: 1, title: "second Doing", description: "here is the second Doing Task", col: "Doing"},
@@ -102,10 +130,39 @@ const Columns = () => {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-        <Box sx={style}>
-          
-            <ModalFields/>
-
+          <Box sx={style}>  
+          <Grid container spacing={1}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              
+            </Typography>
+            <Grid item>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField 
+                  label="Title" 
+                  placeholder="Give your task a title!" 
+                  variant="outlined" 
+                  fullWidth
+                  onChange={(event) => titleChange(event)}
+                />
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField 
+                  multiline={true}
+                  rows={4} 
+                  label="Description" 
+                  placeholder="Add your task description" 
+                  variant="outlined" 
+                  fullWidth
+                  onChange={(event) => descriptionChange(event)}
+                  />
+              </Typography>
+            </Grid>
+            <Stack spacing={2} direction="row" sx={{m: 2}}>
+                <Button variant="text" onClick={()=> createNewTask()}>Create</Button>
+            </Stack>
+        </Grid>
 
           </Box>  
         </Modal>
@@ -114,7 +171,7 @@ const Columns = () => {
               <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
                 <h2>To Do</h2>
                 <IconButton>
-                  <AddIcon onClick={() => openCreateNew("To Do")}/>
+                  <AddIcon onClick={() => openCreateNew('To Do', '', '')}/>
                 </IconButton> 
               </Grid >
                 {test.map((value) => {
@@ -128,7 +185,7 @@ const Columns = () => {
             <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
               <h2>Doing</h2>
               <IconButton>
-                <AddIcon onClick={() => openCreateNew("Doing")}/>
+                <AddIcon onClick={() => openCreateNew('Doing', '', '')}/>
               </IconButton>      
             </Grid >
             {doingState.map((value) => {
@@ -141,7 +198,7 @@ const Columns = () => {
             <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
               <h2>Done</h2>
               <IconButton>
-                <AddIcon onClick={() => openCreateNew("Done")}/>
+                <AddIcon onClick={() => openCreateNew('Done', '', '')}/>
               </IconButton>  
             </Grid >
             {doneState.map((value) => {
