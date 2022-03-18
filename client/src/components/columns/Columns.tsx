@@ -11,7 +11,6 @@ import axios from 'axios'
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
-import ModalFields from '../ModalFields'
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
@@ -53,7 +52,6 @@ const Columns = () => {
         axios.post('http://localhost:5000/todos/', task)
       setIsOpen(false)
       setTest(test)
-
     }
 
     const titleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
