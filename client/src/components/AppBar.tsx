@@ -4,10 +4,9 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import Columns from './columns/Columns'
+import IconButton, { IconButtonProps } from '@mui/material/IconButton'; 
 
 const ResponsiveAppBar = () => {
 
@@ -26,9 +25,10 @@ const ResponsiveAppBar = () => {
             Project Management KanBan
           </Typography>
           </Box>
-          <AddIcon />
-          <DeleteForeverIcon/>
-          <GitHubIcon/>
+          <IconButton href="https://github.com/rkaufusi/Project-Manager-KB" target="_blank">
+            <GitHubIcon>
+            </GitHubIcon>
+          </IconButton>
         </Toolbar>      
       </Container>
     </AppBar>
