@@ -86,17 +86,13 @@ const Columns = () => {
       p: 4,
     };
 
-  const Item = styled(Paper)(({ theme }) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
-  
-  const openCreateNew = (title: string, description: string, col: string) => {
-    setColumn(title)
+  const openCreateNew = (taskColumn: string) => {
+    //setColumn(title)
     setIsOpen(true)
-    console.log(`open ${col}`)
+    setTask({
+      ...task, 
+      col: taskColumn
+  })
   }
   const closeCreateNew = () => {
     setIsOpen(false)
@@ -169,7 +165,7 @@ const Columns = () => {
               <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
                 <h2>To Do</h2>
                 <IconButton>
-                  <AddIcon onClick={() => openCreateNew('To Do', '', '')}/>
+                  <AddIcon onClick={() => openCreateNew('To Do')}/>
                 </IconButton> 
               </Grid >
                 {test.map((value) => {
@@ -183,7 +179,7 @@ const Columns = () => {
             <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
               <h2>Doing</h2>
               <IconButton>
-                <AddIcon onClick={() => openCreateNew('Doing', '', '')}/>
+                <AddIcon onClick={() => openCreateNew('Doing')}/>
               </IconButton>      
             </Grid >
             {doingState.map((value) => {
@@ -196,7 +192,7 @@ const Columns = () => {
             <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
               <h2>Done</h2>
               <IconButton>
-                <AddIcon onClick={() => openCreateNew('Done', '', '')}/>
+                <AddIcon onClick={() => openCreateNew('Done')}/>
               </IconButton>  
             </Grid >
             {doneState.map((value) => {

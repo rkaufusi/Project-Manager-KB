@@ -50,23 +50,11 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
     p: 4,
   };
 
-  const Item = styled(Paper)(({ theme }) => ({
-      ...theme.typography.body2,
-      padding: theme.spacing(1),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-    }));
-    console.log(taskVal)
-
     const openCreateNew = (title: string, description: string, col: string) => {
-      setColumn(title)
       setIsOpen(true)
-      console.log(`open ${col}`)
     }
-    const closeCreateNew = () => {
-      setIsOpen(false)
-      console.log(`closed`)
-    }
+
+    const closeCreateNew = () => setIsOpen(false)
 
     const titleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       event.preventDefault()
@@ -77,7 +65,7 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
           title: enteredTitle
       })
   }
-  console.log(task)
+
   const descriptionChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       event.preventDefault()
       let enteredDescription = event.target.value
@@ -95,9 +83,9 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
   const updateButtonPressed = (idToUpdate: number) => {
     axios.put(`http://localhost:5000/todos/${idToUpdate}`, task)
     .then(response => console.log('deleted', response)).catch(error => console.log(error))
-
     setIsOpen(false)
   }
+
   return (
     <div>
       <Modal
@@ -136,7 +124,7 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
               </Typography>
             </Grid>
             <Stack spacing={2} direction="row" sx={{m: 2}}>
-                <Button variant="text" onClick={()=> updateButtonPressed(taskVal.todo_id)}>Update</Button>
+                <Button variant="text" onClick={() => updateButtonPressed(taskVal.todo_id)}>Update</Button>
             </Stack>
         </Grid>
 
