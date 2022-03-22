@@ -28,7 +28,7 @@ interface Cols {
 }
 
 const Columns = () => {
-    const [test, setTest] = useState([])
+    const [tasksList, setTasksList] = useState<AllItems[]>([])
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [column, setColumn] = useState('')
     const [taskTitle, setTaskTitle] = useState<string>('')
@@ -40,18 +40,15 @@ const Columns = () => {
     })
     useEffect(() => {
       axios.get('http://localhost:5000/todos').then((allTodos) => {
-        setTest(allTodos.data)
+        setTasksList(allTodos.data)
       })
-    },[test])
+    },[tasksList])
 
-    test.map((value) => {
-      console.log(value)
-    })
-    console.log(taskTitle)
+    
     const createNewTask = () => {
         axios.post('http://localhost:5000/todos/', task)
       setIsOpen(false)
-      setTest(test)
+      setTasksList(tasksList)
     }
 
     const titleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -63,7 +60,7 @@ const Columns = () => {
             title: enteredTitle
         })
     }
-    console.log(task)
+    //console.log(task)
     const descriptionChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         event.preventDefault()
         let enteredDescription = event.target.value
@@ -168,8 +165,10 @@ const Columns = () => {
                   <AddIcon onClick={() => openCreateNew('To Do')}/>
                 </IconButton> 
               </Grid >
-                {test.map((value) => {
-              return <Tasks taskVal={value}/>
+                {tasksList.map((value) => {
+                  if(value.col === "To Do") {
+                    return <Tasks taskVal={value}/>
+                  }
               })}
             </Paper>
         </Grid>
@@ -182,8 +181,10 @@ const Columns = () => {
                 <AddIcon onClick={() => openCreateNew('Doing')}/>
               </IconButton>      
             </Grid >
-            {doingState.map((value) => {
-              return <Tasks taskVal={value}/>
+            {tasksList.map((value) => {
+              if(value.col === "Doing") {
+                return <Tasks taskVal={value}/>
+              }
             })}
           </Paper>
         </Grid>
@@ -195,8 +196,10 @@ const Columns = () => {
                 <AddIcon onClick={() => openCreateNew('Done')}/>
               </IconButton>  
             </Grid >
-            {doneState.map((value) => {
-              return <Tasks taskVal={value}/>
+            {tasksList.map((value) => {
+              if(value.col === "Done") {
+                return <Tasks taskVal={value}/>
+              }
             })}
           </Paper>
         </Grid>
