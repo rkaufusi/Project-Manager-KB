@@ -98,6 +98,12 @@ const Columns = () => {
   const onDragEnd = (result: DropResult) => {
     const {source, destination} = result
     if(!destination) return
+
+    const items = Array.from(tasksList)
+    const [newOrder] = items.splice(source.index, 1)
+    items.splice(destination.index, 0, newOrder)
+
+    setTasksList(items)
   }
 
   return (
@@ -146,59 +152,102 @@ const Columns = () => {
           </Box>  
         </Modal>
         <DragDropContext onDragEnd={onDragEnd}>
-        
-        <Grid item xs={3.5} container direction="column" >
-
-
-            <Paper elevation={4} style={{backgroundColor: "#ACEB9B"}}>
+          <Grid item xs={3.5} container direction="column">
+          <Droppable droppableId="to do">
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+              <Paper elevation={4} style={{backgroundColor: "#ACEB9B"}}>
               <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
-
-
                 <h2>To Do</h2>
                 <IconButton>
                   <AddIcon onClick={() => openCreateNew('To Do')}/>
                 </IconButton> 
-          
-
               </Grid >
-                {tasksList.map((value) => {
-                  if(value.col === "To Do") {
-                    return <Tasks taskVal={value}/>
-                  }
+              {tasksList.map((value, idx) => {
+                if(value.col === "To Do") {
+                  return <Draggable key={value.todo_id} draggableId={value.todo_id.toString()} index={idx}>
+                    {(provided, snapshot) => (
+                      <div ref={provided.innerRef} 
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+
+                      >
+                      <Tasks taskVal={value}/>
+                      </div>
+                    )}
+                    </Draggable>
+                }
               })}
             </Paper>
+            </div>
+          )}
+
+        </Droppable>
         </Grid>
 
         <Grid item xs={3.5} container direction="column" >
-          <Paper elevation={4} style={{backgroundColor: "#9BE3EB"}}>
-            <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
-              <h2>Doing</h2>
-              <IconButton>
-                <AddIcon onClick={() => openCreateNew('Doing')}/>
-              </IconButton>      
-            </Grid >
-            {tasksList.map((value) => {
-              if(value.col === "Doing") {
-                return <Tasks taskVal={value}/>
+        <Droppable droppableId="doing">
+          {(provided) => (
+            <div {...provided.droppableProps} ref={provided.innerRef}>
+            <Paper elevation={4} style={{backgroundColor: "#9BE3EB"}}>
+ 
+              <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
+                <h2>To Do</h2>
+                <IconButton>
+                  <AddIcon onClick={() => openCreateNew('To Do')}/>
+                </IconButton> 
+              </Grid >
+              {tasksList.map((value, idx) => {
+                if(value.col === "Doing") {
+                  return <Draggable key={value.todo_id} draggableId={value.todo_id.toString()} index={idx}>
+                    {(provided, snapshot) => (
+                      <div ref={provided.innerRef} 
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                      <Tasks taskVal={value}/>
+                      </div>
+                    )}
+                    </Draggable>
               }
             })}
-          </Paper>
+            </Paper>
+            </div>
+          )}
+          </Droppable>
         </Grid>
 
+
         <Grid item xs={3.5} container direction="column" >
-          <Paper elevation={4} style={{backgroundColor: "#EB9B9B"}}>
-            <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
-              <h2>Done</h2>
-              <IconButton>
-                <AddIcon onClick={() => openCreateNew('Done')}/>
-              </IconButton>  
-            </Grid >
-            {tasksList.map((value) => {
-              if(value.col === "Done") {
-                return <Tasks taskVal={value}/>
+        <Droppable droppableId="done">
+          {(provided) => (
+            <div {...provided.droppableProps} ref={provided.innerRef}>
+            <Paper elevation={4} style={{backgroundColor: "#EB9B9B"}}>
+ 
+              <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
+                <h2>To Do</h2>
+                <IconButton>
+                  <AddIcon onClick={() => openCreateNew('To Do')}/>
+                </IconButton> 
+              </Grid >
+              {tasksList.map((value, idx) => {
+                if(value.col === "Done") {
+                  return <Draggable key={value.todo_id} draggableId={value.todo_id.toString()} index={idx}>
+                    {(provided, snapshot) => (
+                      <div ref={provided.innerRef} 
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                      <Tasks taskVal={value}/>
+                      </div>
+                    )}
+                    </Draggable>
               }
             })}
-          </Paper>
+            </Paper>
+            </div>
+          )}
+          </Droppable>
         </Grid>
       </DragDropContext>
 
