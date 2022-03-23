@@ -13,6 +13,7 @@ import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import { DragDropContext, Droppable, Draggable, DropResult} from "react-beautiful-dnd";
 
 interface AllItems {
   todo_id: number,
@@ -43,7 +44,6 @@ const Columns = () => {
         setTasksList(allTodos.data)
       })
     },[tasksList])
-
     
     const createNewTask = () => {
         axios.post('http://localhost:5000/todos/', task)
@@ -95,22 +95,10 @@ const Columns = () => {
     setIsOpen(false)
     console.log(`closed`)
   }
-
-  const allDoing: AllItems[] = [
-    {todo_id: 1, title: "first Doing", description: "here is the first Doing Task", col: "Doing"},
-    {todo_id: 1, title: "second Doing", description: "here is the second Doing Task", col: "Doing"},
-    {todo_id: 1, title: "third Doing", description: "here is the second Doing Task", col: "Doing"},
-  ]
-
-  const allDone: AllItems[] = [
-    {todo_id: 1, title: "first Done", description: "here is the first done Task", col: "Done"},
-    {todo_id: 1, title: "second Done", description: "here is the second done Task", col: "Done"},
-    {todo_id: 1, title: "third Done", description: "here is the second done Task", col: "Done"},
-  ] 
-
-  //const [toDoState, setMyToDoState] = useState<AllItems[]>(allToDo)
-  const [doingState, setDoingState] = useState<AllItems[]>(allDoing)
-  const [doneState, setDoneState] = useState<AllItems[]>(allDone)
+  const onDragEnd = (result: DropResult) => {
+    const {source, destination} = result
+    if(!destination) return
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -157,13 +145,21 @@ const Columns = () => {
 
           </Box>  
         </Modal>
+        <DragDropContext onDragEnd={onDragEnd}>
+        
         <Grid item xs={3.5} container direction="column" >
+
+
             <Paper elevation={4} style={{backgroundColor: "#ACEB9B"}}>
               <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
+
+
                 <h2>To Do</h2>
                 <IconButton>
                   <AddIcon onClick={() => openCreateNew('To Do')}/>
                 </IconButton> 
+          
+
               </Grid >
                 {tasksList.map((value) => {
                   if(value.col === "To Do") {
@@ -188,6 +184,7 @@ const Columns = () => {
             })}
           </Paper>
         </Grid>
+
         <Grid item xs={3.5} container direction="column" >
           <Paper elevation={4} style={{backgroundColor: "#EB9B9B"}}>
             <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
@@ -203,6 +200,8 @@ const Columns = () => {
             })}
           </Paper>
         </Grid>
+      </DragDropContext>
+
       </Grid>
     </Box>
   )
