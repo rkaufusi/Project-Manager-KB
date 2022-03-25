@@ -44,6 +44,18 @@ const Columns = () => {
         setTasksList(allTodos.data)
       })
     },[tasksList])
+
+    const style = {
+      position: 'absolute' as 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 400,
+      bgcolor: 'background.paper',
+      border: '2px solid #000',
+      boxShadow: 24,
+      p: 4,
+    };
     
     const createNewTask = () => {
         axios.post('http://localhost:5000/todos/', task)
@@ -71,25 +83,14 @@ const Columns = () => {
         })
     }
 
-    const dragIdChange = (newCol: string) => {
-      console.log(newCol)
+    const dragColChange = (newCol: string, newTitle: string, newDescription: string) => {
+      console.log(newCol, newTitle, newDescription)
       setTask({
-          ...task, 
-         col: newCol
+        title: newTitle, 
+        description: newDescription,
+        col: newCol
       })
   }
-
-    const style = {
-      position: 'absolute' as 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      width: 400,
-      bgcolor: 'background.paper',
-      border: '2px solid #000',
-      boxShadow: 24,
-      p: 4,
-    };
 
   const openCreateNew = (taskColumn: string) => {
     //setColumn(title)
@@ -109,16 +110,25 @@ const Columns = () => {
     console.log(source, destination, draggableId)
     if(!destination) return
 
-    const items = Array.from(tasksList)
-    const [newOrder] = items.splice(source.index, 1)
-    items.splice(destination.index, 0, newOrder)
+    //const items = Array.from(tasksList)
+    //const [newOrder] = items.splice(source.index, 1)
+    //items.splice(destination.index, 0, newOrder)
 
-    dragIdChange(destination.droppableId)
+    axios.get(`http://localhost:5000/todos/${draggableId}`).then((allTodos) => {
+      let {title, description} = allTodos.data
+      console.log(task)
+      console.log(title, description)
 
-    axios.put(`http://localhost:5000/todos/${draggableId}`, task)
-    .then(response => console.log('updated todo_id', response)).catch(error => console.log(error))
+      //dragColChange(destination.droppableId, title, description)
 
-    setTasksList(items)
+      axios.put(`http://localhost:5000/todos/${draggableId}`, {title: title, description: description, col: destination.droppableId})
+      .then(response => console.log('updated todo_id', response, task)).catch(error => console.log(error))
+
+    })
+    
+    console.log(task)
+
+    //setTasksList(items)
   }
 
   return (
@@ -168,7 +178,7 @@ const Columns = () => {
         </Modal>
         <DragDropContext onDragEnd={onDragEnd}>
           <Grid item xs={3.5} container direction="column">
-          <Droppable droppableId="to do">
+          <Droppable droppableId="To Do">
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
               <Paper elevation={4} style={{backgroundColor: "#ACEB9B"}}>
@@ -201,15 +211,15 @@ const Columns = () => {
         </Grid>
 
         <Grid item xs={3.5} container direction="column" >
-        <Droppable droppableId="doing">
+        <Droppable droppableId="Doing">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
             <Paper elevation={4} style={{backgroundColor: "#9BE3EB"}}>
  
               <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
-                <h2>To Do</h2>
+                <h2>Doing</h2>
                 <IconButton>
-                  <AddIcon onClick={() => openCreateNew('To Do')}/>
+                  <AddIcon onClick={() => openCreateNew('Doing')}/>
                 </IconButton> 
               </Grid >
               {tasksList.map((value, idx) => {
@@ -232,17 +242,16 @@ const Columns = () => {
           </Droppable>
         </Grid>
 
-
         <Grid item xs={3.5} container direction="column" >
-        <Droppable droppableId="done">
+        <Droppable droppableId="Done">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
             <Paper elevation={4} style={{backgroundColor: "#EB9B9B"}}>
  
               <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
-                <h2>To Do</h2>
+                <h2>Done</h2>
                 <IconButton>
-                  <AddIcon onClick={() => openCreateNew('To Do')}/>
+                  <AddIcon onClick={() => openCreateNew('Done')}/>
                 </IconButton> 
               </Grid >
               {tasksList.map((value, idx) => {
