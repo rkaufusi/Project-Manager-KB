@@ -82,7 +82,7 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
   }
   const updateButtonPressed = (idToUpdate: number) => {
     axios.put(`http://localhost:5000/todos/${idToUpdate}`, task)
-    .then(response => console.log('deleted', response)).catch(error => console.log(error))
+    .then(response => console.log('updated', response)).catch(error => console.log(error))
     setIsOpen(false)
   }
 

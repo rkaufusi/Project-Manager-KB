@@ -71,6 +71,14 @@ const Columns = () => {
         })
     }
 
+    const dragIdChange = (newCol: string) => {
+      console.log(newCol)
+      setTask({
+          ...task, 
+         col: newCol
+      })
+  }
+
     const style = {
       position: 'absolute' as 'absolute',
       top: '50%',
@@ -96,12 +104,19 @@ const Columns = () => {
     console.log(`closed`)
   }
   const onDragEnd = (result: DropResult) => {
-    const {source, destination} = result
+    console.log(result)
+    const {source, destination, draggableId} = result
+    console.log(source, destination, draggableId)
     if(!destination) return
 
     const items = Array.from(tasksList)
     const [newOrder] = items.splice(source.index, 1)
     items.splice(destination.index, 0, newOrder)
+
+    dragIdChange(destination.droppableId)
+
+    axios.put(`http://localhost:5000/todos/${draggableId}`, task)
+    .then(response => console.log('updated todo_id', response)).catch(error => console.log(error))
 
     setTasksList(items)
   }
