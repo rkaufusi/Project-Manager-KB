@@ -274,8 +274,9 @@ const Columns = () => {
           </Droppable>
         </Grid>
       </DragDropContext>
-
+            
       </Grid>
+      Drag task to change columns
     </Box>
   )
 }

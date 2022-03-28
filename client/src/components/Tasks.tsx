@@ -27,6 +27,9 @@ interface AllItems {
 
 const Tasks = ({taskVal}: {taskVal: AllItems}) => {
 
+  let {title, description, col} = taskVal
+  console.log(title, description, col)
+
   const [test, setTest] = useState([])
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [column, setColumn] = useState('')
@@ -59,13 +62,14 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
     const titleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       event.preventDefault()
       let enteredTitle = event.target.value
+      console.log(enteredTitle)
       setTaskTitle(enteredTitle)
       setTask({
           ...task, 
           title: enteredTitle
       })
   }
-
+/*
   const descriptionChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       event.preventDefault()
       let enteredDescription = event.target.value
@@ -74,14 +78,25 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
           ...task, 
           description: enteredDescription
       })
-  }
+  }*/
+
+  const descriptionChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    event.preventDefault()
+    let enteredDescription = event.target.value
+    setTask({
+        ...task, 
+        description: enteredDescription
+    })
+}
 
   const deleteButtonPressed = (idToDelete: number) => {
     axios.delete(`http://localhost:5000/todos/${idToDelete}`)
     .then(response => console.log('deleted', response)).catch(error => console.log(error))  
   }
-  const updateButtonPressed = (idToUpdate: number) => {
+  const updateButtonPressed = (updateCol: string, idToUpdate: number) => {
     axios.put(`http://localhost:5000/todos/${idToUpdate}`, task)
+    //axios.put(`http://localhost:5000/todos/${idToUpdate}`, {task.title, task.description, updateCol})
+
     .then(response => console.log('updated', response)).catch(error => console.log(error))
     setIsOpen(false)
   }
@@ -124,7 +139,7 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
               </Typography>
             </Grid>
             <Stack spacing={2} direction="row" sx={{m: 2}}>
-                <Button variant="text" onClick={() => updateButtonPressed(taskVal.todo_id)}>Update</Button>
+                <Button variant="text" onClick={() => updateButtonPressed(taskVal.col, taskVal.todo_id)}>Update</Button>
             </Stack>
         </Grid>
 
