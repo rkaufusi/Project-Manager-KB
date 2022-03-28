@@ -28,7 +28,7 @@ interface AllItems {
 const Tasks = ({taskVal}: {taskVal: AllItems}) => {
 
   let {title, description, col} = taskVal
-  console.log(title, description, col)
+  //console.log(title, description, col)
 
   const [test, setTest] = useState([])
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -40,6 +40,8 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
       description: '',
       col: ''
   })
+
+ 
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -59,9 +61,11 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
 
     const closeCreateNew = () => setIsOpen(false)
 
-    const titleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const titleChange = (titleToChange: string | undefined, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      let enteredTitle = titleToChange
+      console.log(titleToChange)
       event.preventDefault()
-      let enteredTitle = event.target.value
+      enteredTitle = event.target.value
       console.log(enteredTitle)
       setTaskTitle(enteredTitle)
       setTask({
@@ -87,17 +91,23 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
         ...task, 
         description: enteredDescription
     })
-}
+  }
 
   const deleteButtonPressed = (idToDelete: number) => {
     axios.delete(`http://localhost:5000/todos/${idToDelete}`)
     .then(response => console.log('deleted', response)).catch(error => console.log(error))  
   }
   const updateButtonPressed = (updateCol: string, idToUpdate: number) => {
-    axios.put(`http://localhost:5000/todos/${idToUpdate}`, task)
+    console.log(updateCol)
+    axios.put(`http://localhost:5000/todos/${idToUpdate}`, {title: task.title, description: task.description, col: updateCol})
     //axios.put(`http://localhost:5000/todos/${idToUpdate}`, {task.title, task.description, updateCol})
 
     .then(response => console.log('updated', response)).catch(error => console.log(error))
+    setTask({
+      title: '',
+      description: '',
+      col: ''
+    })
     setIsOpen(false)
   }
 
@@ -121,7 +131,7 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
                 defaultValue={taskVal.title}
                 variant="outlined" 
                 fullWidth
-                onChange={(event) => titleChange(event)}
+                onChange={(event) => titleChange(taskVal.title, event)}
               />
               </Typography>
             </Grid>
