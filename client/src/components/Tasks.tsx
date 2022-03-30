@@ -61,9 +61,10 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
 
     const closeCreateNew = () => setIsOpen(false)
 
-    const titleChange = (titleToChange: string | undefined, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const titleChange = (titleToChange: string | undefined, descToChange: string | undefined, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       let enteredTitle = titleToChange
       console.log(titleToChange)
+      console.log(descToChange)
       event.preventDefault()
       enteredTitle = event.target.value
       console.log(enteredTitle)
@@ -84,9 +85,12 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
       })
   }*/
 
-  const descriptionChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const descriptionChange = (descToChange: string | undefined, titleToChange: string | undefined, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    console.log(descToChange)
+    console.log(titleToChange)
+    let enteredDescription = descToChange
     event.preventDefault()
-    let enteredDescription = event.target.value
+    enteredDescription = event.target.value
     setTask({
         ...task, 
         description: enteredDescription
@@ -98,7 +102,7 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
     .then(response => console.log('deleted', response)).catch(error => console.log(error))  
   }
   const updateButtonPressed = (updateCol: string, idToUpdate: number) => {
-    console.log(updateCol)
+    console.log(idToUpdate)
     axios.put(`http://localhost:5000/todos/${idToUpdate}`, {title: task.title, description: task.description, col: updateCol})
     //axios.put(`http://localhost:5000/todos/${idToUpdate}`, {task.title, task.description, updateCol})
 
@@ -109,6 +113,17 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
       col: ''
     })
     setIsOpen(false)
+    console.log(idToUpdate)
+  }
+
+  const openModal = (titleToUpdate: string | undefined, descriptionToUpdate: string | undefined) => {
+    setIsOpen(true)
+    setTask({
+      title: titleToUpdate!,
+      description: descriptionToUpdate!,
+      col: ''
+    })
+    console.log(task)
   }
 
   return (
@@ -131,7 +146,7 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
                 defaultValue={taskVal.title}
                 variant="outlined" 
                 fullWidth
-                onChange={(event) => titleChange(taskVal.title, event)}
+                onChange={(event) => titleChange(taskVal.title, taskVal.description, event)}
               />
               </Typography>
             </Grid>
@@ -144,7 +159,7 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
                   defaultValue={taskVal.description} 
                   variant="outlined" 
                   fullWidth
-                  onChange={(event) => descriptionChange(event)}
+                  onChange={(event) => descriptionChange(taskVal.title, taskVal.description, event)}
                   />
               </Typography>
             </Grid>
@@ -170,7 +185,7 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
           </CardContent>
           <CardActions>
             <IconButton>
-              <AddIcon onClick={() => setIsOpen(true)}/>
+              <AddIcon onClick={() => openModal(taskVal.title, taskVal.description)}/>
             </IconButton>
             <IconButton>
               <DeleteForeverIcon onClick={() => deleteButtonPressed(taskVal.todo_id)}/>
