@@ -9,7 +9,6 @@ import Columns from './columns/Columns'
 import IconButton, { IconButtonProps } from '@mui/material/IconButton'; 
 
 const ResponsiveAppBar = () => {
-
   return (
     <div>
     <AppBar position="static" style={{backgroundColor: "#67B89E"}}>

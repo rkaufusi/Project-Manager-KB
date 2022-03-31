@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -26,22 +24,13 @@ interface AllItems {
 }
 
 const Tasks = ({taskVal}: {taskVal: AllItems}) => {
-
-  let {title, description, col} = taskVal
-  //console.log(title, description, col)
-
-  const [test, setTest] = useState([])
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [column, setColumn] = useState('')
   const [taskTitle, setTaskTitle] = useState<string>('')
-  const [taskDescription, setTaskDescription] = useState<string>('')
   const [task, setTask] = useState({
-      title: '',
-      description: '',
-      col: ''
+    title: '',
+    description: '',
+    col: ''
   })
-
- 
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -55,39 +44,19 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
     p: 4,
   };
 
-    const openCreateNew = (title: string, description: string, col: string) => {
-      setIsOpen(true)
-    }
+  const closeCreateNew = () => setIsOpen(false)
 
-    const closeCreateNew = () => setIsOpen(false)
-
-    const titleChange = (titleToChange: string | undefined, descToChange: string | undefined, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      let enteredTitle = titleToChange
-      console.log(titleToChange)
-      console.log(descToChange)
-      event.preventDefault()
-      enteredTitle = event.target.value
-      console.log(enteredTitle)
-      setTaskTitle(enteredTitle)
-      setTask({
-          ...task, 
-          title: enteredTitle
-      })
+  const titleChange = (titleToChange: string | undefined, descToChange: string | undefined, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    let enteredTitle = titleToChange
+    event.preventDefault()
+    enteredTitle = event.target.value
+    setTask({
+      ...task, 
+      title: enteredTitle
+    })
   }
-/*
-  const descriptionChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      event.preventDefault()
-      let enteredDescription = event.target.value
-      setTaskDescription(enteredDescription)
-      setTask({
-          ...task, 
-          description: enteredDescription
-      })
-  }*/
 
   const descriptionChange = (descToChange: string | undefined, titleToChange: string | undefined, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    console.log(descToChange)
-    console.log(titleToChange)
     let enteredDescription = descToChange
     event.preventDefault()
     enteredDescription = event.target.value
@@ -102,18 +71,14 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
     .then(response => console.log('deleted', response)).catch(error => console.log(error))  
   }
   const updateButtonPressed = (updateCol: string, idToUpdate: number) => {
-    console.log(idToUpdate)
     axios.put(`http://localhost:5000/todos/${idToUpdate}`, {title: task.title, description: task.description, col: updateCol})
-    //axios.put(`http://localhost:5000/todos/${idToUpdate}`, {task.title, task.description, updateCol})
-
-    .then(response => console.log('updated', response)).catch(error => console.log(error))
+      .then(response => console.log('updated', response)).catch(error => console.log(error))
     setTask({
       title: '',
       description: '',
       col: ''
     })
     setIsOpen(false)
-    console.log(idToUpdate)
   }
 
   const openModal = (titleToUpdate: string | undefined, descriptionToUpdate: string | undefined) => {
@@ -136,8 +101,7 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
       >
         <Box sx={style}>  
         <Grid container spacing={1}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-              
+          <Typography id="modal-modal-title" variant="h6" component="h2">      
           </Typography>
           <Grid item>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
@@ -167,7 +131,6 @@ const Tasks = ({taskVal}: {taskVal: AllItems}) => {
                 <Button variant="text" onClick={() => updateButtonPressed(taskVal.col, taskVal.todo_id)}>Update</Button>
             </Stack>
         </Grid>
-
           </Box>  
         </Modal>
     <Box
